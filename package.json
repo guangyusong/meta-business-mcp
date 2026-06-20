@@ -1,0 +1,30 @@
+{
+  "name": "meta-business-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source-ready skeleton for an auditable MCP gateway over Meta Business APIs.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "npm@10.8.2",
+  "workspaces": [
+    "packages/schemas",
+    "packages/meta-client",
+    "packages/policy",
+    "packages/proposals",
+    "packages/audit",
+    "apps/server"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "npm run typecheck",
+    "test": "vitest run",
+    "clean": "find packages apps -name dist -type d -prune -exec rm -rf {} + && rm -rf coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}

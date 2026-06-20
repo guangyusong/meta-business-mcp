@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Meta Business MCP Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode", "tools", "assets", "writes", "leads", "queries", "content", "logging"],
+  "properties": {
+    "mode": { "const": "read_only" },
+    "policy_version": { "type": "string" },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allow"],
+      "properties": {
+        "allow": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["require_explicit_allowlist", "wildcard_allowed"],
+      "properties": {
+        "require_explicit_allowlist": { "type": "boolean" },
+        "wildcard_allowed": { "type": "boolean" }
+      }
+    },
+    "writes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": { "enabled": { "type": "boolean" } }
+    },
+    "leads": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "values", "persistent_cache", "searchable"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "values": { "const": "masked" },
+        "persistent_cache": { "type": "boolean" },
+        "searchable": { "type": "boolean" }
+      }
+    },
+    "queries": { "type": "object" },
+    "content": { "type": "object" },
+    "logging": { "type": "object" }
+  }
+}

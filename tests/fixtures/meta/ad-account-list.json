@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "id": "act_123456789",
+      "name": "Example Ad Account",
+      "currency": "CAD",
+      "timezone_name": "America/Toronto",
+      "account_status": 1
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "before_cursor",
+      "after": "after_cursor"
+    }
+  }
+}

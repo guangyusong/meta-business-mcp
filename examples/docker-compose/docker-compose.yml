@@ -1,0 +1,10 @@
+services:
+  meta-business-mcp:
+    build:
+      context: ../..
+      dockerfile: apps/server/Dockerfile
+    environment:
+      NODE_ENV: production
+      META_GRAPH_API_VERSION: v25.0
+    stdin_open: true
+    tty: false

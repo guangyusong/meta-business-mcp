@@ -1,0 +1,25 @@
+{
+  "name": "@meta-business-mcp/server",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "private": true,
+  "bin": {
+    "meta-business-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "npm run typecheck",
+    "dev:stdio": "tsx src/index.ts --transport stdio"
+  },
+  "dependencies": {
+    "@meta-business-mcp/audit": "0.1.0",
+    "@meta-business-mcp/meta-client": "0.1.0",
+    "@meta-business-mcp/policy": "0.1.0",
+    "@meta-business-mcp/schemas": "0.1.0",
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  }
+}

@@ -1,0 +1,43 @@
+mode: read_only
+policy_version: "2026-06-20-skeleton"
+
+tools:
+  allow:
+    - meta_connection_status
+    - meta_ad_accounts_list
+    - meta_campaigns_list
+    - meta_ads_insights_query
+    - meta_pages_list
+    - meta_instagram_accounts_list
+    - search
+    - fetch
+
+assets:
+  require_explicit_allowlist: true
+  wildcard_allowed: false
+
+writes:
+  enabled: false
+
+leads:
+  enabled: false
+  values: masked
+  persistent_cache: false
+  searchable: false
+
+queries:
+  max_date_range_days: 90
+  max_page_size: 100
+  max_total_rows: 5000
+  max_metrics: 20
+  max_breakdowns: 2
+
+content:
+  fetch_external_urls: false
+  pseudonymize_comment_authors: true
+  max_text_length: 10000
+
+logging:
+  include_request_bodies: false
+  include_response_bodies: false
+  hash_asset_ids: true
