@@ -61,6 +61,17 @@ Run the stdio server skeleton:
 npm --workspace @meta-business-mcp/server run dev:stdio
 ```
 
+Install it in Codex:
+
+```sh
+codex mcp add meta-business -- \
+  npm --prefix /absolute/path/to/meta-business-mcp \
+  --workspace @meta-business-mcp/server \
+  run dev:stdio
+```
+
+See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
+
 ## Security defaults
 
 - Read-only by default.
