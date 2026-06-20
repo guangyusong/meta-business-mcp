@@ -34,7 +34,7 @@ After adding the server, start a new Codex thread or restart Codex so the MCP se
 Expected behavior in this skeleton:
 
 - The server advertises tool contracts.
-- Tool calls return a safe `DATA_UNAVAILABLE` skeleton response.
+- Tool calls return a safe `DATA_UNAVAILABLE` skeleton response without making live Meta requests.
 - No live Meta credential is required.
 - No Meta write or generic Graph tool exists.
 

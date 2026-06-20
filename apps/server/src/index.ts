@@ -35,7 +35,6 @@ export function createServer(): McpServer {
       async () => {
         const payload = redactSecrets(skeletonSafeError(toolName));
         return {
-          isError: true,
           content: [
             {
               type: "text" as const,
