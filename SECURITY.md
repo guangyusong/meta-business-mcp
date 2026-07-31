@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-This project is currently a pre-release skeleton. Security fixes apply to `main` until the first tagged release policy is defined.
+This project is currently pre-release. Security fixes apply to `main` until the first tagged release policy is defined.
 
 ## Reporting a vulnerability
 
@@ -15,6 +15,7 @@ Send a private report to the maintainers once a project security contact is publ
 - No live Meta credentials in tests or fixtures.
 - No raw Meta tokens in tool arguments, tool outputs, logs, audit events, or docs.
 - No arbitrary Graph API proxy.
-- No Meta writes in the public skeleton.
-- No raw lead values in the public skeleton.
-- No Clara-specific operational data in this repository.
+- Meta execution disabled by default; approved execution is opt-in only for private reviewed runtimes.
+- Write execution tools accept only `proposal_id`, never free-form mutation arguments.
+- No raw lead values.
+- No company-specific operational data in this repository.

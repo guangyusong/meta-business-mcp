@@ -1,0 +1,9 @@
+{
+  "accounts": [
+    {
+      "account_id": "act_1234567890",
+      "account_name": "Example Ad Account",
+      "status": "active"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ describe("proposals", () => {
       now,
       before: { amount_minor: "10000", currency: "CAD" },
       request: {
+        ad_account_id: "act_123",
         target_type: "ad_set",
         target_id: "adset_1",
         budget_type: "daily",
@@ -40,6 +41,7 @@ describe("proposals", () => {
       now,
       before: { status: "PAUSED" },
       request: {
+        ad_account_id: "act_123",
         target_type: "campaign",
         target_id: "campaign_1",
         proposed_status: "ACTIVE",

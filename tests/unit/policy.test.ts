@@ -18,9 +18,9 @@ describe("default policy", () => {
     expect(() => assertToolAllowed("meta_ads_insights_query")).not.toThrow();
   });
 
-  it("does not allow local proposal tools in the default read-only profile", () => {
-    expect(isToolAllowed("meta_proposal_create_budget_change")).toBe(false);
-    expect(() => assertToolAllowed("meta_proposal_create_budget_change")).toThrow(/denied/);
+  it("allows local proposal tools while keeping Meta writes disabled", () => {
+    expect(isToolAllowed("meta_proposal_create_budget_change")).toBe(true);
+    expect(() => assertToolAllowed("meta_proposal_create_budget_change")).not.toThrow();
   });
 
   it("blocks policy variants that enable writes", () => {

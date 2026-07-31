@@ -26,7 +26,12 @@ export type DeliveryStatusProposalInput = z.infer<typeof DeliveryStatusProposalI
 export type Proposal = {
   proposal_id: string;
   status: ProposalStatus;
-  action_type: "ads.budget.set" | "ads.delivery_status.set";
+  action_type:
+    | "ads.budget.set"
+    | "ads.delivery_status.set"
+    | "page_post.publish"
+    | "comment.reply"
+    | "message.reply";
   target: {
     type: string;
     id: string;
@@ -77,7 +82,8 @@ export function stableStringify(value: unknown): string {
 }
 
 export function hashProposalPayload(payload: Omit<Proposal, "proposal_hash">): string {
-  return `sha256:${createHash("sha256").update(stableStringify(payload)).digest("hex")}`;
+  const { status: _status, ...immutablePayload } = payload;
+  return `sha256:${createHash("sha256").update(stableStringify(immutablePayload)).digest("hex")}`;
 }
 
 export function createBudgetProposal(input: {
@@ -99,6 +105,7 @@ export function createBudgetProposal(input: {
     },
     before: input.before,
     proposed: {
+      ad_account_id: request.ad_account_id,
       budget_type: request.budget_type,
       amount_minor: request.amount_minor,
       currency: request.currency
@@ -136,6 +143,7 @@ export function createDeliveryStatusProposal(input: {
     },
     before: input.before,
     proposed: {
+      ad_account_id: request.ad_account_id,
       status: request.proposed_status
     },
     reason: request.reason,
@@ -145,6 +153,41 @@ export function createDeliveryStatusProposal(input: {
     created_by: input.created_by,
     created_at: input.now.toISOString(),
     expires_at: new Date(input.now.getTime() + (request.expires_in_seconds ?? 3600) * 1000).toISOString()
+  };
+  return {
+    ...base,
+    proposal_hash: hashProposalPayload(base)
+  };
+}
+
+export function createGenericProposal(input: {
+  proposal_id: string;
+  created_by: string;
+  policy_version: string;
+  now: Date;
+  action_type: Proposal["action_type"];
+  target: Proposal["target"];
+  before: Record<string, unknown>;
+  proposed: Record<string, unknown>;
+  reason: string;
+  risk_class: ProposalRiskClass;
+  required_approvals: number;
+  expires_in_seconds?: number | undefined;
+}): Proposal {
+  const base: Omit<Proposal, "proposal_hash"> = {
+    proposal_id: input.proposal_id,
+    status: "DRAFT",
+    action_type: input.action_type,
+    target: input.target,
+    before: input.before,
+    proposed: input.proposed,
+    reason: input.reason,
+    risk_class: input.risk_class,
+    required_approvals: input.required_approvals,
+    policy_version: input.policy_version,
+    created_by: input.created_by,
+    created_at: input.now.toISOString(),
+    expires_at: new Date(input.now.getTime() + (input.expires_in_seconds ?? 3600) * 1000).toISOString()
   };
   return {
     ...base,

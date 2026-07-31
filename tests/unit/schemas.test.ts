@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { z } from "zod";
 import {
   assertNoForbiddenToolNames,
   CampaignsListInputSchema,
@@ -18,6 +19,22 @@ describe("tool schemas", () => {
 
   it("does not register forbidden tool names", () => {
     expect(() => assertNoForbiddenToolNames(Object.keys(ToolContracts))).not.toThrow();
+  });
+
+  it("documents every tool and top-level input parameter", () => {
+    for (const [toolName, contract] of Object.entries(ToolContracts)) {
+      expect(contract.description.length, `${toolName} description`).toBeGreaterThanOrEqual(120);
+
+      const jsonSchema = z.toJSONSchema(contract.inputSchema);
+      for (const [parameterName, parameterSchema] of Object.entries(jsonSchema.properties ?? {})) {
+        expect(
+          typeof parameterSchema === "object" && "description" in parameterSchema
+            ? parameterSchema.description
+            : undefined,
+          `${toolName}.${parameterName} description`
+        ).toBeTruthy();
+      }
+    }
   });
 
   it("catches unsafe tool names", () => {

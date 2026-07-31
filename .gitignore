@@ -12,3 +12,4 @@ coverage/
 .metatoken
 tokens/
 secrets/
+.meta-business-mcp/
