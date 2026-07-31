@@ -2,7 +2,7 @@
 
 ## Recommended path: Codex first
 
-Use Codex first because this project currently exposes a stdio MCP server. ChatGPT requires a remote Streamable HTTP endpoint, OAuth, and HTTPS hosting; the HTTP transport is intentionally disabled in the skeleton.
+Use Codex first because this project exposes a stdio MCP server and does not require public hosting. ChatGPT requires a remote HTTPS Streamable HTTP endpoint and OAuth for production use.
 
 From a local clone:
 
@@ -31,12 +31,39 @@ codex mcp list
 
 After adding the server, start a new Codex thread or restart Codex so the MCP server is loaded into the tool set.
 
-Expected behavior in this skeleton:
+Expected behavior without Meta configuration:
 
 - The server advertises tool contracts.
-- Tool calls return a safe `DATA_UNAVAILABLE` skeleton response without making live Meta requests.
+- Meta Ads read tools report missing configuration or empty allowlists.
+- Asset-bound tools return empty allowlist or safe policy errors.
 - No live Meta credential is required.
-- No Meta write or generic Graph tool exists.
+- No generic Graph tool exists.
+- Meta execution is disabled by default.
+
+Expected behavior with Meta configuration:
+
+- `meta_connection_status` checks the configured token and allowlisted assets.
+- `meta_ad_accounts_list` returns only allowlisted visible ad accounts.
+- Ads, Pages, Instagram, lead form metadata, and insights tools call named allowlisted Graph endpoints.
+- `search` and `fetch` operate over sanitized local snapshots created by read/proposal tools.
+- Proposal tools create auditable local proposal records.
+
+Example local environment:
+
+```sh
+export META_ADS_TOKEN="EAAR_fake_replace_me"
+export META_ADS_API_VERSION="v25.0"
+export META_BUSINESS_MCP_AD_ACCOUNTS_FILE="/private/path/ad-accounts.json"
+export META_BUSINESS_MCP_PAGES_FILE="/private/path/pages.json"
+export META_BUSINESS_MCP_INSTAGRAM_ACCOUNTS_FILE="/private/path/instagram-accounts.json"
+export META_BUSINESS_MCP_STORAGE_DIR="/private/path/meta-business-mcp-store"
+```
+
+Run a redacted live smoke test:
+
+```sh
+META_BUSINESS_MCP_LIVE_TEST=1 npm run smoke:live
+```
 
 Remove it:
 
@@ -44,17 +71,33 @@ Remove it:
 codex mcp remove meta-business
 ```
 
-## ChatGPT path: later
+## ChatGPT path
 
-ChatGPT connector setup should wait until the server has a Streamable HTTP transport.
+ChatGPT and other remote MCP clients should connect to a deployed HTTPS endpoint, usually `/mcp`.
 
-Required future work:
+Local HTTP development:
 
-1. Implement Streamable HTTP at `/mcp`.
-2. Add OAuth authorization code + PKCE for remote clients.
-3. Validate issuer, audience, expiration, and scopes on every request.
-4. Add Origin validation and request limits.
-5. Host behind HTTPS.
-6. Use ChatGPT developer mode to create a connector using the public `/mcp` URL.
+```sh
+npm --workspace @meta-business-mcp/server run dev:http
+```
 
-Do not expose a no-auth HTTP server with live Meta data. The skeleton can be demoed locally through Codex without live credentials.
+Production/private deployment should set:
+
+```sh
+export META_BUSINESS_MCP_HTTP_AUTH_ENABLED=1
+export META_BUSINESS_MCP_PUBLIC_BASE_URL="https://your-domain.example"
+export META_BUSINESS_MCP_AUTH_ISSUER="https://issuer.example"
+export META_BUSINESS_MCP_AUTH_AUDIENCE="https://your-domain.example/mcp"
+export META_BUSINESS_MCP_AUTH_JWKS_URL="https://issuer.example/.well-known/jwks.json"
+export META_BUSINESS_MCP_AUTH_REQUIRED_SCOPES="meta_business.read,meta_business.write"
+export META_BUSINESS_MCP_ALLOWED_ORIGINS="https://chatgpt.com"
+```
+
+HTTP endpoints:
+
+- `POST /mcp`: Streamable HTTP MCP.
+- `GET /mcp`: Streamable HTTP session/SSE handling.
+- `GET /healthz`: basic server status.
+- `GET /.well-known/oauth-protected-resource/mcp`: protected resource metadata.
+
+Do not expose a no-auth HTTP server with live Meta data. For real writes, also keep `META_BUSINESS_MCP_WRITES_ENABLED` disabled until proposal approval, budget caps, state checks, audit storage, and reconciliation handling have been reviewed against the private deployment.

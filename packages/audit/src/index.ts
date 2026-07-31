@@ -1,13 +1,14 @@
 import type { ToolName } from "@meta-business-mcp/schemas";
 
 const SECRET_PATTERNS = [
-  /EAAB[a-zA-Z0-9_-]{20,}/g,
+  /EAA[a-zA-Z0-9_-]{20,}/g,
   /(?:access_token|app_secret|client_secret|token|password)["'=:\s]+[A-Za-z0-9._~+/=-]{8,}/gi,
   /Bearer\s+[A-Za-z0-9._~+/=-]{8,}/gi
 ];
 
 const EMAIL_PATTERN = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
-const PHONE_PATTERN = /(?:\+?\d[\d ().-]{7,}\d)/g;
+const PHONE_PATTERN = /(?<![\w-])(?:\+\d{1,3}[\s.-]+)?\(?\d{3}\)?[\s.-]+\d{3}[\s.-]+\d{4}(?![\w-])/g;
+const SECRET_KEY_PATTERN = /^(?:token|access_token|refresh_token|input_token|id_token|bearer_token|app_secret|client_secret|password|authorization)$/i;
 
 export type AuditResultStatus = "allowed" | "denied" | "failed" | "succeeded";
 
@@ -45,7 +46,7 @@ export function redactSecrets<T>(value: T): T {
   if (value && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => {
-        if (/token|secret|password|authorization/i.test(key)) {
+        if (SECRET_KEY_PATTERN.test(key)) {
           return [key, "[REDACTED_SECRET]"];
         }
         return [key, redactSecrets(item)];

@@ -40,13 +40,11 @@ export type DefaultPolicy = {
 
 export const defaultPolicy: DefaultPolicy = {
   mode: "read_only",
-  policy_version: "2026-06-20-skeleton",
+  policy_version: "2026-06-20-read-only-v1",
   tools: {
-    allow: Object.keys(ToolContracts).filter((toolName) => {
-      const name = toolName as ToolName;
-      return name !== "meta_proposal_create_budget_change"
-        && name !== "meta_proposal_create_delivery_status_change";
-    }) as ToolName[]
+    allow: Object.entries(ToolContracts)
+      .filter(([toolName, contract]) => contract.annotations.readOnlyHint || toolName.startsWith("meta_proposal_"))
+      .map(([toolName]) => toolName as ToolName)
   },
   assets: {
     require_explicit_allowlist: true,
@@ -92,6 +90,6 @@ export function assertToolAllowed(toolName: ToolName, policy: DefaultPolicy = de
 
 export function assertWritesDisabled(policy: DefaultPolicy = defaultPolicy): void {
   if (policy.writes.enabled) {
-    throw new Error("Meta writes are not allowed in the public skeleton policy");
+    throw new Error("Meta writes are not allowed in the public v1 policy");
   }
 }

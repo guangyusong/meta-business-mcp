@@ -12,6 +12,7 @@
     "packages/policy",
     "packages/proposals",
     "packages/audit",
+    "packages/storage",
     "apps/server"
   ],
   "scripts": {
@@ -19,6 +20,7 @@
     "typecheck": "tsc -b --pretty false",
     "lint": "npm run typecheck",
     "test": "vitest run",
+    "smoke:live": "tsx apps/server/src/live-smoke.ts",
     "clean": "find packages apps -name dist -type d -prune -exec rm -rf {} + && rm -rf coverage"
   },
   "devDependencies": {

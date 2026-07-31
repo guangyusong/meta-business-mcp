@@ -8,7 +8,8 @@ export default defineConfig({
       "@meta-business-mcp/audit": fileURLToPath(new URL("./packages/audit/src/index.ts", import.meta.url)),
       "@meta-business-mcp/meta-client": fileURLToPath(new URL("./packages/meta-client/src/index.ts", import.meta.url)),
       "@meta-business-mcp/policy": fileURLToPath(new URL("./packages/policy/src/index.ts", import.meta.url)),
-      "@meta-business-mcp/proposals": fileURLToPath(new URL("./packages/proposals/src/index.ts", import.meta.url))
+      "@meta-business-mcp/proposals": fileURLToPath(new URL("./packages/proposals/src/index.ts", import.meta.url)),
+      "@meta-business-mcp/storage": fileURLToPath(new URL("./packages/storage/src/index.ts", import.meta.url))
     }
   },
   test: {

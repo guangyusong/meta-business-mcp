@@ -1,50 +1,110 @@
 # Meta Business MCP
 
-Meta Business MCP is an open-source-ready skeleton for an auditable Model Context Protocol gateway over Meta Business APIs.
+Meta Business MCP is an open-source-ready Model Context Protocol gateway over allowlisted Meta Business APIs.
 
-The goal is not to build an autonomous marketing agent. The goal is a safe, self-hosted operations gateway that can eventually let MCP clients inspect Meta Business assets, normalize performance data, and create reviewable proposals without exposing broad Graph API access.
+The goal is not to build an autonomous marketing agent. The goal is a safe, self-hosted operations gateway that lets MCP clients inspect Meta Business assets, normalize performance data, draft/propose changes, and execute only explicitly approved named actions without exposing broad Graph API access.
 
 This project is not affiliated with, endorsed by, or sponsored by Meta or OpenAI.
 
 ## Current status
 
-This repository is a public skeleton. It intentionally does not call live Meta APIs yet.
+This repository has a local stdio MCP server for Codex, a Streamable HTTP `/mcp` path for remote MCP clients, broad live read handlers, sanitized local search/fetch, and durable proposal state.
 
 Included:
 
 - TypeScript workspace with strict builds.
-- Initial MCP tool contracts.
+- Broad MCP tool contracts for Ads, Pages, Instagram, leads metadata, health/context, search/fetch, and proposals.
 - Real stdio MCP server entrypoint.
+- Streamable HTTP MCP server entrypoint with OAuth bearer verification hooks.
 - Default-safe policy primitives.
-- Allowlisted Meta API boundary.
-- Proposal hashing and state-transition primitives.
+- Allowlisted Meta API client boundary.
+- Proposal hashing, approval, and execution state.
 - Audit redaction helpers.
 - Docs, examples, and tests.
 
-Excluded from v1:
-
-- Meta writes.
-- Posting, messaging, WhatsApp, deletes, budget changes, or campaign activation.
-- Raw lead export or lead PII retrieval.
-- Generic `graph_request`, `meta_api_call`, arbitrary URL fetch, or browser automation.
-- Clara-specific prompts, account IDs, workflows, thresholds, CRM integrations, or private playbooks.
-
-## Tool contracts
-
-Initial contracts:
+Live when configured:
 
 - `meta_connection_status`
 - `meta_ad_accounts_list`
 - `meta_campaigns_list`
+- `meta_adsets_list`
+- `meta_ads_list`
+- `meta_ad_creatives_list`
+- `meta_pixels_list`
+- `meta_custom_conversions_list`
 - `meta_ads_insights_query`
 - `meta_pages_list`
+- `meta_page_get`
+- `meta_page_posts_list`
+- `meta_page_post_comments_list`
+- `meta_page_insights_query`
+- `meta_page_post_insights_query`
+- `meta_page_conversations_list`
 - `meta_instagram_accounts_list`
+- `meta_instagram_media_list`
+- `meta_instagram_media_insights_query`
+- `meta_lead_forms_list`
+- `meta_allowed_assets_list`
+- `meta_permission_probe`
+- `meta_token_health_check`
 - `search`
 - `fetch`
-- `meta_proposal_create_budget_change`
-- `meta_proposal_create_delivery_status_change`
+- proposal create/list/get/cancel/approve tools
 
-Every handler currently returns a safe skeleton response until an allowlisted Meta operation and mocked contract tests exist.
+Opt-in and guarded:
+
+- `meta_proposal_execute` can execute approved named writes only when `META_BUSINESS_MCP_WRITES_ENABLED=1`.
+- Default public/local configuration keeps Meta writes disabled.
+
+Excluded by default:
+
+- Arbitrary Graph proxy tools.
+- Deletes, WhatsApp, raw lead export, browser automation, and arbitrary URL fetch.
+- Raw lead export or lead PII retrieval.
+- Company-specific prompts, account IDs, workflows, thresholds, CRM integrations, or private playbooks.
+
+## Tool contracts
+
+See [docs/tool-reference.md](docs/tool-reference.md) for the current tool list, schemas, and safety behavior. Live Meta tools require `META_ADS_TOKEN` plus explicit asset allowlists.
+
+## Configuration
+
+The server reads credentials and allowlists from environment/config only. Do not pass tokens as tool arguments.
+
+```sh
+export META_ADS_TOKEN="EAAR_fake_replace_me"
+export META_ADS_API_VERSION="v25.0"
+export META_BUSINESS_MCP_AD_ACCOUNTS_FILE="/private/path/ad-accounts.json"
+export META_BUSINESS_MCP_PAGES_FILE="/private/path/pages.json"
+export META_BUSINESS_MCP_INSTAGRAM_ACCOUNTS_FILE="/private/path/instagram-accounts.json"
+```
+
+Allowlist file format:
+
+```json
+{
+  "accounts": [
+    {
+      "account_id": "act_1234567890",
+      "account_name": "Example Account",
+      "status": "active"
+    }
+  ]
+}
+```
+
+Alternatives:
+
+- `META_BUSINESS_MCP_AD_ACCOUNTS_JSON`: inline JSON in the same shape.
+- `META_AD_ACCOUNT_IDS`: comma-separated account IDs for simple local testing.
+- `META_BUSINESS_MCP_PAGES_JSON` / `META_PAGE_IDS`: Page allowlist.
+- `META_BUSINESS_MCP_INSTAGRAM_ACCOUNTS_JSON` / `META_INSTAGRAM_ACCOUNT_IDS`: Instagram account allowlist.
+- `META_BUSINESS_MCP_PIXELS_JSON` / `META_PIXEL_IDS`: pixel allowlist.
+- `META_BUSINESS_MCP_TIMEOUT_MS`: request timeout, default `20000`.
+- `META_BUSINESS_MCP_STORAGE_DIR`: local sanitized cache/proposal storage.
+- `META_BUSINESS_MCP_WRITES_ENABLED`: opt-in approved execution switch, default off.
+
+For private deployments, keep account allowlists and token sourcing outside this public repo. Point `META_BUSINESS_MCP_AD_ACCOUNTS_FILE` at a private file if needed.
 
 ## Development
 
@@ -55,11 +115,36 @@ npm test
 npm run build
 ```
 
-Run the stdio server skeleton:
+Run the stdio server:
 
 ```sh
 npm --workspace @meta-business-mcp/server run dev:stdio
 ```
+
+Run the HTTP server locally:
+
+```sh
+npm --workspace @meta-business-mcp/server run dev:http
+```
+
+For ChatGPT or other remote MCP clients, deploy the HTTP server behind HTTPS and enable:
+
+```sh
+export META_BUSINESS_MCP_HTTP_AUTH_ENABLED=1
+export META_BUSINESS_MCP_AUTH_ISSUER="https://issuer.example"
+export META_BUSINESS_MCP_AUTH_AUDIENCE="https://your-domain.example/mcp"
+export META_BUSINESS_MCP_AUTH_JWKS_URL="https://issuer.example/.well-known/jwks.json"
+export META_BUSINESS_MCP_AUTH_REQUIRED_SCOPES="meta_business.read,meta_business.write"
+export META_BUSINESS_MCP_ALLOWED_ORIGINS="https://chatgpt.com"
+```
+
+Run the opt-in live smoke test:
+
+```sh
+META_BUSINESS_MCP_LIVE_TEST=1 npm run smoke:live
+```
+
+The live smoke test is skipped unless `META_BUSINESS_MCP_LIVE_TEST=1` is set and prints redacted JSON.
 
 Install it in Codex:
 
@@ -74,11 +159,12 @@ See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
 
 ## Security defaults
 
-- Read-only by default.
+- Meta writes disabled by default.
+- Draft/proposal operations are local and auditable.
+- Execution accepts only `proposal_id`, never free-form write arguments.
 - No raw Meta token in tool arguments or outputs.
 - No generic Graph proxy.
 - No live credentials required for tests.
-- No lead values in the skeleton.
-- No Meta mutation methods in the allowlisted client boundary.
+- No raw lead values.
 
 See [docs/threat-model.md](docs/threat-model.md) and [docs/architecture.md](docs/architecture.md).

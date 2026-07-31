@@ -16,7 +16,9 @@ Policy and validation
   |
   +--> Read services -> allowlisted Meta API client
   |
-  +--> Proposal services -> local proposal records
+  +--> Snapshot services -> sanitized local search/fetch
+  |
+  +--> Proposal services -> local proposal records -> guarded named writes
   |
   +--> Audit and redaction
 ```
@@ -26,18 +28,19 @@ Policy and validation
 - The server must never expose a generic Graph API request tool.
 - Every future Meta call must be represented by a named operation.
 - Every named operation must define a fixed HTTP method, path template, field allowlist, bounded input schema, output schema, permission profile, and safety classification.
-- The public skeleton must remain read-only against Meta.
-- Proposal tools create local review artifacts only. They do not approve or execute changes.
-- Approval and execution must be separate systems in a later milestone.
+- Public/default behavior must keep Meta writes disabled.
+- Proposal tools create local review artifacts with stable hashes and before-state.
+- Execution tools must accept only `proposal_id`, reject stale/expired/replayed proposals, and run only named write operations when a private runtime explicitly enables writes.
 
 ## Package boundaries
 
 - `packages/schemas`: shared tool contracts and safe envelopes.
-- `packages/meta-client`: allowlisted Meta API boundary. It must not depend on MCP.
+- `packages/meta-client`: allowlisted read-only Meta API boundary and client. It must not depend on MCP.
 - `packages/policy`: default-safe policy and deny-by-default checks.
 - `packages/proposals`: proposal state and hashing primitives.
+- `packages/storage`: local JSON-file storage for sanitized snapshots and proposals.
 - `packages/audit`: audit event model and redaction helpers.
-- `apps/server`: MCP transport and tool registration.
+- `apps/server`: stdio and Streamable HTTP MCP transport, tool registration, handlers, and auth-gated HTTP path.
 
 ## Public versus private
 
