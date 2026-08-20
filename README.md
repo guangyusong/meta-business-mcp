@@ -174,7 +174,7 @@ See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
 ## Directory release status
 
 - Claude Desktop: version 0.1.1 has been installed and exercised in Claude Desktop on macOS. GitHub Actions builds, packages, and performs the MCP runtime handshake on macOS, Windows, and Linux. Each user supplies their own Meta token and explicit asset allowlists.
-- Anthropic directory: prepared but not submitted. Remaining gates are a fully populated reviewer Meta account and end-to-end evidence for every advertised tool.
+- Anthropic desktop extension directory: version 0.1.1 was submitted for consideration on August 20, 2026 and is awaiting review. Submission does not imply acceptance or publication. Any follow-up live evaluation remains gated by a fully populated reviewer Meta account and end-to-end evidence for every advertised tool.
 - OpenAI public directory: not ready. The current HTTP path is for private deployment and uses server-side configuration; a public listing requires per-user Meta OAuth, tenant-isolated storage, a production HTTPS endpoint, domain verification, and reviewer credentials.
 
 See [docs/directory-submission.md](docs/directory-submission.md) for the draft listing packet and review cases.
