@@ -19,7 +19,7 @@ import { createRemoteJWKSet, jwtVerify, type JWTPayload } from "jose";
 import { loadRuntimeConfig, type RuntimeConfig } from "./config.js";
 import { handleToolCall } from "./handlers.js";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 
 function toolResponse(payload: unknown): {
   content: Array<{ type: "text"; text: string }>;

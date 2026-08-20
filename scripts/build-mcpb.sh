@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-output_path="$repo_root/dist/meta-business-mcp-0.1.0.mcpb"
+output_path="$repo_root/dist/meta-business-mcp-0.1.1.mcpb"
 stage_dir="$(mktemp -d "${TMPDIR:-/tmp}/meta-business-mcp-mcpb.XXXXXX")"
 
 cleanup() {

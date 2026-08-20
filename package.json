@@ -1,6 +1,6 @@
 {
   "name": "meta-business-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Open-source-ready skeleton for an auditable MCP gateway over Meta Business APIs.",
   "author": {
