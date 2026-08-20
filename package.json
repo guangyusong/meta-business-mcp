@@ -22,7 +22,7 @@
     "instagram",
     "analytics"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "type": "module",
   "packageManager": "npm@10.8.2",
   "workspaces": [

@@ -48,7 +48,7 @@
     "analytics",
     "mcp"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "privacy_policies": [
     "https://github.com/guangyusong/meta-business-mcp/blob/main/PRIVACY.md",
     "https://www.facebook.com/privacy/policy/"

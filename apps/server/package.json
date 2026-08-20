@@ -2,7 +2,7 @@
   "name": "@meta-business-mcp/server",
   "version": "0.1.1",
   "type": "module",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "author": {
     "name": "Guangyu Song",
     "url": "https://github.com/guangyusong"
