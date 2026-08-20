@@ -32,7 +32,10 @@ export type RuntimeConfig = {
 
 function clean(value: string | undefined): string | undefined {
   const trimmed = value?.trim();
-  return trimmed ? trimmed : undefined;
+  if (!trimmed || /^\$\{user_config\.[A-Za-z][A-Za-z0-9_]*\}$/.test(trimmed)) {
+    return undefined;
+  }
+  return trimmed;
 }
 
 function parseJsonSource(source: string, label: string): unknown {

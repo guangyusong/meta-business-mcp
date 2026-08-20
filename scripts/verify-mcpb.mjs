@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
-const bundlePath = resolve(process.argv[2] ?? "dist/meta-business-mcp-0.1.0.mcpb");
+const bundlePath = resolve(process.argv[2] ?? "dist/meta-business-mcp-0.1.1.mcpb");
 const unpackDir = mkdtempSync(join(tmpdir(), "meta-business-mcp-verify-"));
 
 try {
@@ -28,7 +28,7 @@ try {
     },
     stderr: "inherit"
   });
-  const client = new Client({ name: "meta-business-mcp-bundle-verifier", version: "0.1.0" });
+  const client = new Client({ name: "meta-business-mcp-bundle-verifier", version: "0.1.1" });
   await client.connect(transport);
   const { tools } = await client.listTools();
   const toolNames = tools.map((tool) => tool.name);

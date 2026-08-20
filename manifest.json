@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "meta-business-mcp",
   "display_name": "Meta Business MCP",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Safely inspect allowlisted Meta Ads, Facebook Page, and Instagram business data from Claude Desktop.",
   "long_description": "A local-first, read-only MCP gateway for Meta Business APIs. Connect your own Meta access token, explicitly allowlist the business assets Claude may inspect, and query ads, campaigns, insights, Pages, Instagram media, permissions, and token health. The extension does not include arbitrary Graph API access or expose a Meta mutation tool in its default policy. This independent project is not affiliated with or endorsed by Meta or Anthropic.",
   "author": {
@@ -82,30 +82,35 @@
       "type": "string",
       "title": "Allowed ad account IDs",
       "description": "Comma-separated Meta ad account IDs, including the act_ prefix.",
+      "default": "",
       "required": false
     },
     "page_ids": {
       "type": "string",
       "title": "Allowed Facebook Page IDs",
       "description": "Comma-separated Facebook Page IDs Claude may inspect.",
+      "default": "",
       "required": false
     },
     "instagram_account_ids": {
       "type": "string",
       "title": "Allowed Instagram account IDs",
       "description": "Comma-separated Instagram professional account IDs Claude may inspect.",
+      "default": "",
       "required": false
     },
     "pixel_ids": {
       "type": "string",
       "title": "Allowed Meta pixel IDs",
       "description": "Comma-separated Meta pixel IDs Claude may inspect.",
+      "default": "",
       "required": false
     },
     "business_ids": {
       "type": "string",
       "title": "Allowed Meta business IDs",
       "description": "Comma-separated Meta business IDs Claude may inspect.",
+      "default": "",
       "required": false
     }
   }
