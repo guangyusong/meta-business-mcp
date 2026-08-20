@@ -7,9 +7,10 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const bundlePath = resolve(process.argv[2] ?? "dist/meta-business-mcp-0.1.1.mcpb");
 const unpackDir = mkdtempSync(join(tmpdir(), "meta-business-mcp-verify-"));
+const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
 
 try {
-  execFileSync("npx", [
+  execFileSync(npxCommand, [
     "--yes",
     "@anthropic-ai/mcpb@2.1.2",
     "unpack",
@@ -18,7 +19,7 @@ try {
   ], { stdio: "pipe" });
 
   const transport = new StdioClientTransport({
-    command: "node",
+    command: process.execPath,
     args: [join(unpackDir, "apps/server/dist/index.js"), "--transport", "stdio"],
     env: {
       ...process.env,

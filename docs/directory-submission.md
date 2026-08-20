@@ -6,10 +6,11 @@ This document keeps the review copy and evidence for the first directory release
 
 - Developer identity: Guangyu Song
 - Repository: <https://github.com/guangyusong/meta-business-mcp>
-- Support: <https://github.com/guangyusong/meta-business-mcp/issues>
+- Support email: <support@guangyusong.com>
+- Bug tracker: <https://github.com/guangyusong/meta-business-mcp/issues>
 - Privacy: <https://github.com/guangyusong/meta-business-mcp/blob/main/PRIVACY.md>
 - Terms: <https://github.com/guangyusong/meta-business-mcp/blob/main/TERMS.md>
-- Icon: `assets/icon.png` (original project artwork; pending publisher approval)
+- Icon: `assets/icon.png` (original 512x512 project artwork included in the bundle)
 
 ## Listing copy
 
@@ -39,6 +40,6 @@ Category: Developer tools or Productivity
 
 ## Release boundaries
 
-- Claude Desktop bundle: suitable for local testing once the bundle validates and passes cross-platform installation tests.
-- Anthropic directory: not submitted until the bundle, support channel, cross-platform test evidence, and icon are approved.
+- Claude Desktop bundle: version 0.1.1 installed successfully on macOS, completed the MCP handshake, advertised 34 tools, and returned a successful local `meta_proposals_list` result. GitHub Actions separately verifies build, packaging, and the bundle runtime handshake on macOS, Windows, and Linux; Windows and Linux are CI-verified rather than host-UI-tested.
+- Anthropic directory: not submitted. The remaining gates are a fully populated reviewer Meta account, end-to-end evidence for every advertised tool, and acceptance of the directory terms at submission time.
 - OpenAI public plugin directory: blocked until there is a production HTTPS endpoint with per-user Meta OAuth, tenant-isolated data and storage, domain verification, reviewer credentials, and public support/privacy/terms pages.
