@@ -1,0 +1,112 @@
+{
+  "manifest_version": "0.3",
+  "name": "meta-business-mcp",
+  "display_name": "Meta Business MCP",
+  "version": "0.1.0",
+  "description": "Safely inspect allowlisted Meta Ads, Facebook Page, and Instagram business data from Claude Desktop.",
+  "long_description": "A local-first, read-only MCP gateway for Meta Business APIs. Connect your own Meta access token, explicitly allowlist the business assets Claude may inspect, and query ads, campaigns, insights, Pages, Instagram media, permissions, and token health. The extension does not include arbitrary Graph API access or expose a Meta mutation tool in its default policy. This independent project is not affiliated with or endorsed by Meta or Anthropic.",
+  "author": {
+    "name": "Guangyu Song",
+    "url": "https://github.com/guangyusong"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guangyusong/meta-business-mcp.git"
+  },
+  "homepage": "https://github.com/guangyusong/meta-business-mcp",
+  "documentation": "https://github.com/guangyusong/meta-business-mcp/blob/main/docs/install.md",
+  "support": "https://github.com/guangyusong/meta-business-mcp/issues",
+  "icon": "assets/icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "apps/server/dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/apps/server/dist/index.js",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "META_ADS_TOKEN": "${user_config.meta_access_token}",
+        "META_ADS_API_VERSION": "${user_config.meta_api_version}",
+        "META_AD_ACCOUNT_IDS": "${user_config.ad_account_ids}",
+        "META_PAGE_IDS": "${user_config.page_ids}",
+        "META_INSTAGRAM_ACCOUNT_IDS": "${user_config.instagram_account_ids}",
+        "META_PIXEL_IDS": "${user_config.pixel_ids}",
+        "META_BUSINESS_IDS": "${user_config.business_ids}",
+        "META_BUSINESS_MCP_STORAGE_DIR": "${HOME}/.meta-business-mcp"
+      }
+    }
+  },
+  "tools_generated": true,
+  "keywords": [
+    "meta",
+    "facebook",
+    "instagram",
+    "advertising",
+    "analytics",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "privacy_policies": [
+    "https://github.com/guangyusong/meta-business-mcp/blob/main/PRIVACY.md",
+    "https://www.facebook.com/privacy/policy/"
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "user_config": {
+    "meta_access_token": {
+      "type": "string",
+      "title": "Meta access token",
+      "description": "Access token for your own Meta developer app. Claude Desktop stores this sensitive value in the operating system credential vault.",
+      "sensitive": true,
+      "required": true
+    },
+    "meta_api_version": {
+      "type": "string",
+      "title": "Meta Graph API version",
+      "description": "Graph API version to request.",
+      "default": "v25.0",
+      "required": true
+    },
+    "ad_account_ids": {
+      "type": "string",
+      "title": "Allowed ad account IDs",
+      "description": "Comma-separated Meta ad account IDs, including the act_ prefix.",
+      "required": false
+    },
+    "page_ids": {
+      "type": "string",
+      "title": "Allowed Facebook Page IDs",
+      "description": "Comma-separated Facebook Page IDs Claude may inspect.",
+      "required": false
+    },
+    "instagram_account_ids": {
+      "type": "string",
+      "title": "Allowed Instagram account IDs",
+      "description": "Comma-separated Instagram professional account IDs Claude may inspect.",
+      "required": false
+    },
+    "pixel_ids": {
+      "type": "string",
+      "title": "Allowed Meta pixel IDs",
+      "description": "Comma-separated Meta pixel IDs Claude may inspect.",
+      "required": false
+    },
+    "business_ids": {
+      "type": "string",
+      "title": "Allowed Meta business IDs",
+      "description": "Comma-separated Meta business IDs Claude may inspect.",
+      "required": false
+    }
+  }
+}

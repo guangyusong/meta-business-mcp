@@ -1,10 +1,14 @@
 # Meta Business MCP
 
+![Meta Business MCP icon](assets/icon.png)
+
 Meta Business MCP is an open-source-ready Model Context Protocol gateway over allowlisted Meta Business APIs.
+
+Published and maintained by [Guangyu Song](https://github.com/guangyusong).
 
 The goal is not to build an autonomous marketing agent. The goal is a safe, self-hosted operations gateway that lets MCP clients inspect Meta Business assets, normalize performance data, draft/propose changes, and execute only explicitly approved named actions without exposing broad Graph API access.
 
-This project is not affiliated with, endorsed by, or sponsored by Meta or OpenAI.
+This project is not affiliated with, endorsed by, or sponsored by Meta, Anthropic, or OpenAI.
 
 ## Current status
 
@@ -51,10 +55,11 @@ Live when configured:
 - `fetch`
 - proposal create/list/get/cancel/approve tools
 
-Opt-in and guarded:
+Implemented for private development but not advertised by the default public policy:
 
-- `meta_proposal_execute` can execute approved named writes only when `META_BUSINESS_MCP_WRITES_ENABLED=1`.
-- Default public/local configuration keeps Meta writes disabled.
+- `meta_proposal_execute` contains guarded execution code for approved named proposals.
+- The default public policy excludes this tool from the MCP registry, even if a write environment variable is set.
+- External writes require a later, separately reviewed private policy and are not part of the first directory release.
 
 Excluded by default:
 
@@ -115,6 +120,15 @@ npm test
 npm run build
 ```
 
+Build and validate the Claude Desktop MCP bundle:
+
+```sh
+npm run mcpb:validate
+npm run mcpb:pack
+```
+
+The generated `.mcpb` artifact is written under `dist/` and is not committed.
+
 Run the stdio server:
 
 ```sh
@@ -157,6 +171,14 @@ codex mcp add meta-business -- \
 
 See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
 
+## Directory release status
+
+- Claude Desktop: a local MCP bundle manifest is included for review and packaging. Each user supplies their own Meta token and explicit asset allowlists.
+- Anthropic directory: prepared but not submitted; cross-platform installation evidence and a final icon are still required.
+- OpenAI public directory: not ready. The current HTTP path is for private deployment and uses server-side configuration; a public listing requires per-user Meta OAuth, tenant-isolated storage, a production HTTPS endpoint, domain verification, and reviewer credentials.
+
+See [docs/directory-submission.md](docs/directory-submission.md) for the draft listing packet and review cases.
+
 ## Security defaults
 
 - Meta writes disabled by default.
@@ -164,6 +186,7 @@ See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
 - Execution accepts only `proposal_id`, never free-form write arguments.
 - No raw Meta token in tool arguments or outputs.
 - No generic Graph proxy.
+- No external mutation tool advertised by the default public policy.
 - No live credentials required for tests.
 - No raw lead values.
 

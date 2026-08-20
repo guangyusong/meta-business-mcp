@@ -390,6 +390,12 @@ const writeLocal: ToolAnnotations = {
   openWorldHint: false
 };
 
+const writeExternalDestructive: ToolAnnotations = {
+  readOnlyHint: false,
+  destructiveHint: true,
+  openWorldHint: true
+};
+
 export const ToolContracts = {
   meta_connection_status: {
     title: "Meta connection status",
@@ -599,7 +605,7 @@ export const ToolContracts = {
     title: "Execute approved Meta proposal",
     description: "Use only for an unexpired, separately approved proposal after confirming its reviewed contents and current target state. May perform the proposal's single named Meta mutation when writes are explicitly enabled; it rejects free-form operations, unapproved or stale proposals, and ambiguous upstream outcomes.",
     inputSchema: ProposalExecuteInputSchema,
-    annotations: writeLocal
+    annotations: writeExternalDestructive
   }
 } satisfies Record<string, ToolContract>;
 

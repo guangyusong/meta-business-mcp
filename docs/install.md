@@ -75,6 +75,8 @@ codex mcp remove meta-business
 
 ChatGPT and other remote MCP clients should connect to a deployed HTTPS endpoint, usually `/mcp`.
 
+The current HTTP implementation is intended for a private single-operator deployment. Do not submit or deploy it as a public multi-user directory server: it uses server-side Meta credentials and a shared configured storage directory rather than per-user Meta OAuth and tenant-isolated storage.
+
 Local HTTP development:
 
 ```sh
@@ -100,4 +102,4 @@ HTTP endpoints:
 - `GET /healthz`: basic server status.
 - `GET /.well-known/oauth-protected-resource/mcp`: protected resource metadata.
 
-Do not expose a no-auth HTTP server with live Meta data. For real writes, also keep `META_BUSINESS_MCP_WRITES_ENABLED` disabled until proposal approval, budget caps, state checks, audit storage, and reconciliation handling have been reviewed against the private deployment.
+Do not expose a no-auth HTTP server with live Meta data. The default public policy does not register the external proposal-execution tool. A future write-enabled private policy requires a separate review of proposal approval, budget caps, state checks, audit storage, and reconciliation handling.

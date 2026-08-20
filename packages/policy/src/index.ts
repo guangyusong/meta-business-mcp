@@ -43,7 +43,10 @@ export const defaultPolicy: DefaultPolicy = {
   policy_version: "2026-06-20-read-only-v1",
   tools: {
     allow: Object.entries(ToolContracts)
-      .filter(([toolName, contract]) => contract.annotations.readOnlyHint || toolName.startsWith("meta_proposal_"))
+      .filter(([toolName, contract]) =>
+        contract.annotations.readOnlyHint ||
+        (toolName.startsWith("meta_proposal_") && toolName !== "meta_proposal_execute")
+      )
       .map(([toolName]) => toolName as ToolName)
   },
   assets: {
