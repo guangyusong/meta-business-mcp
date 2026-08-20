@@ -3,6 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "description": "Open-source-ready skeleton for an auditable MCP gateway over Meta Business APIs.",
+  "author": {
+    "name": "Guangyu Song",
+    "url": "https://github.com/guangyusong"
+  },
+  "homepage": "https://github.com/guangyusong/meta-business-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guangyusong/meta-business-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guangyusong/meta-business-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "meta-business",
+    "facebook",
+    "instagram",
+    "analytics"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "packageManager": "npm@10.8.2",
@@ -21,6 +40,9 @@
     "lint": "npm run typecheck",
     "test": "vitest run",
     "smoke:live": "tsx apps/server/src/live-smoke.ts",
+    "mcpb:validate": "npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json",
+    "mcpb:pack": "bash scripts/build-mcpb.sh",
+    "mcpb:verify": "node scripts/verify-mcpb.mjs",
     "clean": "find packages apps -name dist -type d -prune -exec rm -rf {} + && rm -rf coverage"
   },
   "devDependencies": {

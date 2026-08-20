@@ -23,6 +23,11 @@ describe("default policy", () => {
     expect(() => assertToolAllowed("meta_proposal_create_budget_change")).not.toThrow();
   });
 
+  it("does not advertise or allow the external proposal executor", () => {
+    expect(isToolAllowed("meta_proposal_execute")).toBe(false);
+    expect(() => assertToolAllowed("meta_proposal_execute")).toThrow(/denied/);
+  });
+
   it("blocks policy variants that enable writes", () => {
     expect(() =>
       assertWritesDisabled({

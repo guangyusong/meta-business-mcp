@@ -18,7 +18,7 @@ Expected behavior:
 - `search` and `fetch` return sanitized cached snapshots after read/proposal tools populate storage.
 - No live Meta credential is required for the smoke test to start.
 - No raw Graph tool appears.
-- Proposal tools appear, but `meta_proposal_execute` returns `POLICY_DENIED` unless writes are explicitly enabled in a private runtime.
+- Local proposal drafting and review tools appear. The default public policy does not register `meta_proposal_execute`.
 
 Live credential checks remain opt-in and must not run in CI by default:
 

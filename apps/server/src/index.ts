@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
+import { realpathSync } from "node:fs";
 import { createServer as createHttpServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import { redactSecrets } from "@meta-business-mcp/audit";
 import { MetaClientBoundary } from "@meta-business-mcp/meta-client";
-import { assertWritesDisabled, defaultPolicy } from "@meta-business-mcp/policy";
+import { assertWritesDisabled, defaultPolicy, isToolAllowed } from "@meta-business-mcp/policy";
 import {
   assertNoForbiddenToolNames,
   ToolContracts,
@@ -63,6 +64,9 @@ export function createServer(config: RuntimeConfig = loadRuntimeConfig()): McpSe
   });
 
   for (const [toolName, contract] of Object.entries(ToolContracts)) {
+    if (!isToolAllowed(toolName as ToolName, defaultPolicy)) {
+      continue;
+    }
     server.registerTool(
       toolName,
       {
@@ -371,7 +375,18 @@ async function main(): Promise<void> {
   await runHttp();
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+export function isMainModule(moduleUrl: string, entryPath: string | undefined): boolean {
+  if (!entryPath) {
+    return false;
+  }
+  try {
+    return realpathSync(fileURLToPath(moduleUrl)) === realpathSync(entryPath);
+  } catch {
+    return moduleUrl === pathToFileURL(entryPath).href;
+  }
+}
+
+if (isMainModule(import.meta.url, process.argv[1])) {
   main().catch((error: unknown) => {
     console.error(redactSecrets(error instanceof Error ? error.message : String(error)));
     process.exitCode = 1;

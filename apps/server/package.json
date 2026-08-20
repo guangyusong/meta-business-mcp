@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "type": "module",
   "license": "Apache-2.0",
+  "author": {
+    "name": "Guangyu Song",
+    "url": "https://github.com/guangyusong"
+  },
+  "homepage": "https://github.com/guangyusong/meta-business-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guangyusong/meta-business-mcp.git"
+  },
   "private": true,
   "bin": {
     "meta-business-mcp": "./dist/index.js"
