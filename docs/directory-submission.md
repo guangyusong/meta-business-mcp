@@ -41,5 +41,5 @@ Category: Developer tools or Productivity
 ## Release boundaries
 
 - Claude Desktop bundle: version 0.1.1 installed successfully on macOS, completed the MCP handshake, advertised 34 tools, and returned a successful local `meta_proposals_list` result. GitHub Actions separately verifies build, packaging, and the bundle runtime handshake on macOS, Windows, and Linux; Windows and Linux are CI-verified rather than host-UI-tested.
-- Anthropic directory: not submitted. The remaining gates are a fully populated reviewer Meta account, end-to-end evidence for every advertised tool, and acceptance of the directory terms at submission time.
+- Anthropic desktop extension directory: version 0.1.1 was submitted for consideration on August 20, 2026 and is awaiting review. The submission included acceptance of Anthropic's directory terms but does not imply acceptance or publication. Any follow-up live evaluation remains gated by a fully populated reviewer Meta account and end-to-end evidence for every advertised tool.
 - OpenAI public plugin directory: blocked until there is a production HTTPS endpoint with per-user Meta OAuth, tenant-isolated data and storage, domain verification, reviewer credentials, and public support/privacy/terms pages.
