@@ -1,18 +1,22 @@
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 const bundlePath = resolve(process.argv[2] ?? "dist/meta-business-mcp-0.1.1.mcpb");
 const unpackDir = mkdtempSync(join(tmpdir(), "meta-business-mcp-verify-"));
-const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
+const npxArgs = ["--yes", "@anthropic-ai/mcpb@2.1.2"];
+const npmExecPath = process.env.npm_execpath;
+const npxCommand = process.platform === "win32" && npmExecPath ? process.execPath : "npx";
+const npxCommandArgs = process.platform === "win32" && npmExecPath
+  ? [join(dirname(npmExecPath), "npx-cli.js"), ...npxArgs]
+  : npxArgs;
 
 try {
   execFileSync(npxCommand, [
-    "--yes",
-    "@anthropic-ai/mcpb@2.1.2",
+    ...npxCommandArgs,
     "unpack",
     bundlePath,
     unpackDir
