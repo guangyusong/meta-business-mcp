@@ -15,4 +15,4 @@ The default public policy is read-only and does not advertise the Meta proposal-
 
 The source code is licensed under the Apache License 2.0. To the maximum extent permitted by law, the software is provided without warranties or guarantees. You are responsible for your configuration, credentials, Meta permissions, data handling, and use of results.
 
-Support is provided through <https://github.com/guangyusong/meta-business-mcp/issues> on a reasonable-efforts basis.
+Support is provided through <support@guangyusong.com> and <https://github.com/guangyusong/meta-business-mcp/issues> on a reasonable-efforts basis. Security vulnerabilities should be reported through GitHub private vulnerability reporting rather than ordinary email or public issues.

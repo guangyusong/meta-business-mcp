@@ -173,11 +173,23 @@ See [docs/install.md](docs/install.md) for Codex and ChatGPT setup notes.
 
 ## Directory release status
 
-- Claude Desktop: a local MCP bundle manifest is included for review and packaging. Each user supplies their own Meta token and explicit asset allowlists.
-- Anthropic directory: prepared but not submitted; cross-platform installation evidence and a final icon are still required.
+- Claude Desktop: version 0.1.1 has been installed and exercised in Claude Desktop on macOS. GitHub Actions builds, packages, and performs the MCP runtime handshake on macOS, Windows, and Linux. Each user supplies their own Meta token and explicit asset allowlists.
+- Anthropic directory: prepared but not submitted. Remaining gates are a fully populated reviewer Meta account and end-to-end evidence for every advertised tool.
 - OpenAI public directory: not ready. The current HTTP path is for private deployment and uses server-side configuration; a public listing requires per-user Meta OAuth, tenant-isolated storage, a production HTTPS endpoint, domain verification, and reviewer credentials.
 
 See [docs/directory-submission.md](docs/directory-submission.md) for the draft listing packet and review cases.
+
+## Privacy Policy
+
+The desktop extension is local-first and does not send credentials or Meta Business data to a publisher-operated backend. Read the complete [Privacy Notice](PRIVACY.md) for data flow, local storage, retention, sharing, and user-control details.
+
+Privacy questions can be sent to [support@guangyusong.com](mailto:support@guangyusong.com). Do not send access tokens, account data, or security vulnerabilities by ordinary email.
+
+## Support
+
+- General and privacy support: [support@guangyusong.com](mailto:support@guangyusong.com)
+- Bugs and feature requests: [GitHub Issues](https://github.com/guangyusong/meta-business-mcp/issues)
+- Security vulnerabilities: use [GitHub private vulnerability reporting](https://github.com/guangyusong/meta-business-mcp/security/advisories/new)
 
 ## Security defaults
 

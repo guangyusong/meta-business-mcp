@@ -24,6 +24,8 @@ You can stop processing by disabling or uninstalling the extension. You can dele
 
 ## Support
 
-For privacy questions, open a GitHub issue at <https://github.com/guangyusong/meta-business-mcp/issues>. Do not include access tokens, account data, personal data, or security vulnerabilities in a public issue.
+For privacy questions, email <support@guangyusong.com>. General bugs and feature requests may be opened at <https://github.com/guangyusong/meta-business-mcp/issues>.
 
-Security vulnerabilities should be reported privately to the repository owner through GitHub.
+Do not include access tokens, account data, personal data, or security vulnerabilities in a public issue or ordinary support email.
+
+Security vulnerabilities should be reported through GitHub private vulnerability reporting at <https://github.com/guangyusong/meta-business-mcp/security/advisories/new>.
