@@ -32,7 +32,7 @@
     "@meta-business-mcp/proposals": "0.1.0",
     "@meta-business-mcp/schemas": "0.1.0",
     "@meta-business-mcp/storage": "0.1.0",
-    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/sdk": "^1.31.0",
     "jose": "^6.2.3"
   }
 }
